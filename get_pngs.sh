@@ -31,7 +31,7 @@ file_y_index="0"
 
 mkdir "${out_dir}"
 
-process_bbox()
+download_tile()
 {
 	# parameters - bbox: $1,$2,$3,$4
 	echo "============================================" >> "${log}"
@@ -39,8 +39,10 @@ process_bbox()
 	layer="osm"
 	echo "запуск команды:"
 	echo "wget http://map.prim.drsk.ru/tilecache/tilecache.cgi?LAYERS=${layer}&TRANSPARENT=true&REASPECT=false&FORMAT=png&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A3857&BBOX=${1},${2},${3},${4}&WIDTH=256&HEIGHT=256 -O ${out_dir}/${file_x_index}-${file_y_index}.png"
-	wget "http://map.prim.drsk.ru/tilecache/tilecache.cgi?LAYERS=${layer}&TRANSPARENT=true&REASPECT=false&FORMAT=png&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A3857&BBOX=${1},${2},${3},${4}&WIDTH=256&HEIGHT=256" -O "${out_dir}/${file_x_index}-${file_y_index}.png"
+	wget "http://map.prim.drsk.ru/tilecache/tilecache.cgi?LAYERS=${layer}&TRANSPARENT=true&REASPECT=false&FORMAT=png&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A3857&BBOX=${1},${2},${3},${4}&WIDTH=256&HEIGHT=256" -O "${out_dir}/iteration_0-x_${file_x_index}-y_${file_y_index}.png"
 }
+
+
 
 bbox_x1="${x1}"
 bbox_y1="${y1}"
@@ -52,31 +54,27 @@ exit_status=0
 while /bin/true
 do
 
-echo log1
 	bbox_y2="`echo ${bbox_y1}+${y_delta}|bc -l`"
 	if [ $(echo "$bbox_y2 > $y2" | bc) -eq 1 ]
 	then
 		bbox_y2="${y2}"
 	fi
 	# processing:
-echo log2
 
 		bbox_x1="${x1}"
 		bbox_x2="${x1}"
 		while /bin/true
 		do
-echo log3
 			bbox_x2="`echo ${bbox_x1}+${x_delta}|bc -l`"
 			if [ $(echo "$bbox_x2 > $x2" | bc) -eq 1 ]
 			then
 				bbox_x2="${x2}"
 			fi
 
-echo log4
 			#############################
-			# processing:
-			echo process_bbox "${bbox_x1}" "${bbox_y1}" "${bbox_x2}" "${bbox_y2}"
-			process_bbox "${bbox_x1}" "${bbox_y1}" "${bbox_x2}" "${bbox_y2}"
+			# download_tile:
+			echo download_tile "${bbox_x1}" "${bbox_y1}" "${bbox_x2}" "${bbox_y2}"
+			download_tile "${bbox_x1}" "${bbox_y1}" "${bbox_x2}" "${bbox_y2}"
 			if [ ! 0 -eq $? ]
 			then
 				echo "`date +%Y.%m.%d-%T`: error process_bbox()!" 
@@ -85,7 +83,6 @@ echo log4
 				break
 			fi
 
-echo log5
 
 			#############################
 			bbox_x1="${bbox_x2}"
@@ -94,7 +91,6 @@ echo log5
 				break
 			fi
 			file_x_index=`expr $file_x_index + 1`
-echo log6
 		done
 	bbox_y1="${bbox_y2}"
 	if [ $(echo "$bbox_y1 >= $y2" | bc) -eq 1 ]
@@ -103,7 +99,6 @@ echo log6
 	fi
 	file_x_index=0
 	file_y_index=`expr $file_y_index + 1`
-echo log7
 	if [ 1 -eq $exit_status ]
 	then
 		break
