@@ -10,7 +10,7 @@ then
 	exit 1
 fi
 in_dir="${1}"
-out_file="${2}"
+result_file="${2}"
 
 
 tmp_dir="/tmp/wms2png"
@@ -83,7 +83,7 @@ process_create_current_full_image()
 		then
 			# Слилось в один файл
 			# Переименовываем его:
-			mv "${tmp_dir}/iteration_${iteration}-x_0-y_0.png" "${out_file}" 
+			mv "${tmp_dir}/iteration_${iteration}-x_0-y_0.png" "${result_file}" 
 			break
 		fi
 	done
