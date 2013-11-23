@@ -9,7 +9,7 @@ mkdir -p "${tmp_dir}"
 #rm -f "${tmp_dir}/*"
 
 
-process_current_iteration
+process_current_iteration()
 {
 	iteration="$1"
 	y="$2"
@@ -46,7 +46,7 @@ process_current_iteration
 		done
 		out_file=${tmp_dir}/iteration_${new_iteration}-x_${new_x}-y_${y}.png
 		echo "montage -geometry +0+0 -tile ${num_files}x1 ${in_files} ${out_file}"
-		#montage -geometry +0+0 -tile ${num_files}x1 ${in_files} ${out_file}
+		montage -geometry +0+0 -tile ${num_files}x1 ${in_files} ${out_file}
 		new_x=`expr $new_x + 1`
 		# Удаляем слитые файлы:
 		echo "rm ${in_files}"
@@ -59,8 +59,9 @@ process_current_iteration
 	return $exit_status
 }
 
-process_create_current_lenta $y
+process_create_current_lenta()
 {
+	y=$1
 	exit_status=0
 	iteration=0
 	while /bin/true
@@ -81,20 +82,18 @@ process_create_current_lenta $y
 x=0
 y=0
 index=0
-for((y=0;y<y_tyles;y++))
+while /bin/true
 do
 	process_create_current_lenta $y
-
+	y=`expr $y + 1`
+	if [ ! -f "${tmp_dir}/iteration_0-x_0-y_${y}.png" ]
+	then
+		# Слилось в один файл
+		break
+	fi
 done
 
 exit 0
 
 #rm -f "${tmp_dir}/*"
 #rmdir "${tmp_dir}"
-	for((x=0;x<x_tyles;x++))
-	do
-		out="${tmp_dir}/${index}.png"
-		in=
-		montage -geometry +0+0 -tile 152x1 ${x}-0.png out.png
-		index=`expr ${index} + 1`
-	done
