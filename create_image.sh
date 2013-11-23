@@ -9,7 +9,76 @@ mkdir -p "${tmp_dir}"
 #rm -f "${tmp_dir}/*"
 
 
-process_current_iteration()
+process_current_full_image_iteration()
+{
+	iteration="$1"
+
+	exit_status=0
+	end_list=0
+	new_iteration=`expr $iteration + 1`
+	new_y=0
+
+	y=0
+		echo "y=${y}"
+	while /bin/true
+	do
+		echo "y=${y}"
+		# Создаём список на обработку:
+		in_files=""
+		num_files=0
+		while /bin/true
+		do
+		echo "y=${y}"
+			img=${tmp_dir}/iteration_${iteration}-x_0-y_${y}.png
+			echo "img=$img"
+			if [ -f "${img}" ]
+			then
+				in_files="${img} ${in_files}"
+				num_files=`expr $num_files + 1`
+			else
+				end_list=1
+				break
+			fi
+			y=`expr $y + 1`
+			# Клеим по 10 файлов 
+			if [ 9 -lt $num_files ]
+			then
+				break
+			fi
+		done
+		out_file=${tmp_dir}/iteration_${new_iteration}-x_0-y_${new_y}.png
+		echo "montage -geometry +0+0 -tile 1x${num_files} ${in_files} ${out_file}"
+		montage -geometry +0+0 -tile 1x${num_files} ${in_files} ${out_file}
+		new_y=`expr $new_y + 1`
+		# Удаляем слитые файлы:
+		echo "rm ${in_files}"
+		rm ${in_files}
+		if [ 1 -eq $end_list ]
+		then
+			break
+		fi
+	done
+	return $exit_status
+}
+
+process_create_current_full_image()
+{
+	exit_status=0
+	iteration=0
+	while /bin/true
+	do
+		process_current_full_image_iteration $iteration
+		iteration=`expr $iteration + 1`
+		if [ ! -f "${tmp_dir}/iteration_${iteration}-x_0-y_1.png" ]
+		then
+			# Слилось в один файл
+			break
+		fi
+	done
+	return $exit_status
+}
+
+process_current_lenta_iteration()
 {
 	iteration="$1"
 	y="$2"
@@ -66,11 +135,13 @@ process_create_current_lenta()
 	iteration=0
 	while /bin/true
 	do
-		process_current_iteration $iteration $y
+		process_current_lenta_iteration $iteration $y
 		iteration=`expr $iteration + 1`
 		if [ ! -f "${tmp_dir}/iteration_${iteration}-x_1-y_${y}.png" ]
 		then
 			# Слилось в один файл
+			# Переименовываем его:
+			mv "${tmp_dir}/iteration_${iteration}-x_0-y_${y}.png" "${tmp_dir}/iteration_0-x_0-y_${y}.png" 
 			break
 		fi
 	done
@@ -78,10 +149,10 @@ process_create_current_lenta()
 }
 
 
+# Начало скрипта
 
-x=0
+# Формируем "ленты":
 y=0
-index=0
 while /bin/true
 do
 	process_create_current_lenta $y
@@ -92,6 +163,9 @@ do
 		break
 	fi
 done
+
+# Склеиваем "ленты" в изображение:
+process_create_current_full_image
 
 exit 0
 
