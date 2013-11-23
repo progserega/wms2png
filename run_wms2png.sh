@@ -34,13 +34,14 @@ done
 download_tile()
 {
 	# parameters - bbox: $1,$2,$3,$4
+	echo "Start processing bbox: ${1},${2} - ${3},${4}"
 	echo "============================================" >> "${log}"
 	echo "Start processing bbox: ${1},${2} - ${3},${4}" >> "${log}"
-	echo "запуск команды:"
 	for layer in ${layers}
 	do
-		echo "wget ${wms_url}?LAYERS=${layer}&TRANSPARENT=true&REASPECT=false&FORMAT=png&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A3857&BBOX=${1},${2},${3},${4}&WIDTH=256&HEIGHT=256" -O "${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png" >> "${log}"
-		wget "${wms_url}?LAYERS=${layer}&TRANSPARENT=true&REASPECT=false&FORMAT=png&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A3857&BBOX=${1},${2},${3},${4}&WIDTH=256&HEIGHT=256" -O "${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png" >> "${log}"
+		echo "запуск команды:" >> "${log}"
+		echo "wget ${wms_url}?LAYERS=${layer}&TRANSPARENT=true&REASPECT=false&FORMAT=png&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A3857&BBOX=${1},${2},${3},${4}&WIDTH=256&HEIGHT=256" -O "${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png" -o "${wget_log} &> /dev/null" >> "${log}"
+		wget "${wms_url}?LAYERS=${layer}&TRANSPARENT=true&REASPECT=false&FORMAT=png&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A3857&BBOX=${1},${2},${3},${4}&WIDTH=256&HEIGHT=256" -O "${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png" -o "${wget_log}" &> /dev/null
 	done
 }
 
@@ -75,7 +76,8 @@ do
 
 			#############################
 			# download_tile:
-			echo download_tile "${bbox_x1}" "${bbox_y1}" "${bbox_x2}" "${bbox_y2}"
+			echo "download_tiles (${layers}) from: ${bbox_x1} ${bbox_y1} ${bbox_x2} ${bbox_y2}"
+			echo "download_tiles (${layers}) from: ${bbox_x1} ${bbox_y1} ${bbox_x2} ${bbox_y2}" >> "${log}"
 			download_tile "${bbox_x1}" "${bbox_y1}" "${bbox_x2}" "${bbox_y2}"
 			if [ ! 0 -eq $? ]
 			then
