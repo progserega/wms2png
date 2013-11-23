@@ -1,13 +1,20 @@
 #!/bin/bash
-dir="out"
-x_tiles=152
-y_tyles=1
 
+if [ -z "${1}" ]
+then
+	echo "Использование:"
+	echo "$0 директория_со_скачанными_тайлами"
+	echo "Где:"
+	echo "   директория_со_скачанными_тайлами - это директория, которая содержит тайлы, скачанные с помощью скриптов wms2png"
+	exit 1
+fi
+in_dir="${1}"
 
 tmp_dir="/tmp/wms2png"
 mkdir -p "${tmp_dir}"
-#rm -f "${tmp_dir}/*"
-
+rm -f "${tmp_dir}"/*
+echo "Копирую файлы:"
+cp "${in_dir}"/* "${tmp_dir}/"
 
 process_current_full_image_iteration()
 {
@@ -30,7 +37,6 @@ process_current_full_image_iteration()
 		do
 		echo "y=${y}"
 			img=${tmp_dir}/iteration_${iteration}-x_0-y_${y}.png
-			echo "img=$img"
 			if [ -f "${img}" ]
 			then
 				in_files="${img} ${in_files}"
@@ -39,6 +45,7 @@ process_current_full_image_iteration()
 				end_list=1
 				break
 			fi
+			echo "img=$img"
 			y=`expr $y + 1`
 			# Клеим по 10 файлов 
 			if [ 9 -lt $num_files ]
@@ -47,8 +54,8 @@ process_current_full_image_iteration()
 			fi
 		done
 		out_file=${tmp_dir}/iteration_${new_iteration}-x_0-y_${new_y}.png
-		echo "montage -geometry +0+0 -tile 1x${num_files} ${in_files} ${out_file}"
-		montage -geometry +0+0 -tile 1x${num_files} ${in_files} ${out_file}
+		echo "montage -background transparent -geometry +0+0 -tile 1x${num_files} ${in_files} ${out_file}"
+		montage -background transparent -geometry +0+0 -tile 1x${num_files} ${in_files} ${out_file}
 		new_y=`expr $new_y + 1`
 		# Удаляем слитые файлы:
 		echo "rm ${in_files}"
@@ -72,6 +79,8 @@ process_create_current_full_image()
 		if [ ! -f "${tmp_dir}/iteration_${iteration}-x_0-y_1.png" ]
 		then
 			# Слилось в один файл
+			# Переименовываем его:
+			mv "${tmp_dir}/iteration_${iteration}-x_0-y_0.png" "${in_dir}/result.png" 
 			break
 		fi
 	done
@@ -97,7 +106,6 @@ process_current_lenta_iteration()
 		while /bin/true
 		do
 			img=${tmp_dir}/iteration_${iteration}-x_${x}-y_${y}.png
-			echo "img=$img"
 			if [ -f "${img}" ]
 			then
 				in_files="${in_files} ${img}"
@@ -106,6 +114,7 @@ process_current_lenta_iteration()
 				end_list=1
 				break
 			fi
+			echo "img=$img"
 			x=`expr $x + 1`
 			# Клеим по 10 файлов 
 			if [ 9 -lt $num_files ]
@@ -114,8 +123,8 @@ process_current_lenta_iteration()
 			fi
 		done
 		out_file=${tmp_dir}/iteration_${new_iteration}-x_${new_x}-y_${y}.png
-		echo "montage -geometry +0+0 -tile ${num_files}x1 ${in_files} ${out_file}"
-		montage -geometry +0+0 -tile ${num_files}x1 ${in_files} ${out_file}
+		echo "montage -background transparent -geometry +0+0 -tile ${num_files}x1 ${in_files} ${out_file}"
+		montage -background transparent -geometry +0+0 -tile ${num_files}x1 ${in_files} ${out_file}
 		new_x=`expr $new_x + 1`
 		# Удаляем слитые файлы:
 		echo "rm ${in_files}"
@@ -167,7 +176,8 @@ done
 # Склеиваем "ленты" в изображение:
 process_create_current_full_image
 
-exit 0
 
-#rm -f "${tmp_dir}/*"
-#rmdir "${tmp_dir}"
+rm -f "${tmp_dir}"/*
+rmdir "${tmp_dir}"
+
+exit 0

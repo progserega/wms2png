@@ -1,16 +1,18 @@
 #!/bin/bash
 
-#if [ -z $3 ]
-#then
-#	echo "Нужно три параметра:"
-#	echo ""
+if [ -z $1 ]
+then
+	echo "Нужно указать конфигурационный файл."
+	echo "Напрмиер:"
+	echo "$0 wms2png.conf"
+	exit 1
+fi
 
-# левый нижний квадрат:
-BBOX1="14675909.428711,5322463.1528125,14677132.421163,5323686.1452649"
+source "${1}"
 
-# правый верхний квадрат
-BBOX2="14696700.300396,5335916.0697889,14697923.292849,5337139.0622413"
+echo "${layers}"
 
+exit
 # нижний левый угол
 x1="`echo $BBOX1|awk '{print $1}' FS=','`"
 y1="`echo $BBOX1|awk '{print $2}' FS=','`"
@@ -24,22 +26,25 @@ yy1="`echo $BBOX1|awk '{print $4}' FS=','`"
 x_delta="`echo $xx1 - $x1|bc -l`"
 y_delta="`echo $yy1 - $y1|bc -l`"
 
-out_dir="out"
-log="get_pngs.log"
 file_x_index="0"
 file_y_index="0"
 
-mkdir "${out_dir}"
+for layer in ${layers}
+do
+	mkdir -p "${out_dir}/${layer}"
+done
 
 download_tile()
 {
 	# parameters - bbox: $1,$2,$3,$4
 	echo "============================================" >> "${log}"
 	echo "Start processing bbox: ${1},${2} - ${3},${4}" >> "${log}"
-	layer="osm"
 	echo "запуск команды:"
-	echo "wget http://map.prim.drsk.ru/tilecache/tilecache.cgi?LAYERS=${layer}&TRANSPARENT=true&REASPECT=false&FORMAT=png&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A3857&BBOX=${1},${2},${3},${4}&WIDTH=256&HEIGHT=256 -O ${out_dir}/${file_x_index}-${file_y_index}.png"
-	wget "http://map.prim.drsk.ru/tilecache/tilecache.cgi?LAYERS=${layer}&TRANSPARENT=true&REASPECT=false&FORMAT=png&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A3857&BBOX=${1},${2},${3},${4}&WIDTH=256&HEIGHT=256" -O "${out_dir}/iteration_0-x_${file_x_index}-y_${file_y_index}.png"
+	for layer in ${layers}
+	do
+		echo "wget ${wms_url}?LAYERS=${layer}&TRANSPARENT=true&REASPECT=false&FORMAT=png&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A3857&BBOX=${1},${2},${3},${4}&WIDTH=256&HEIGHT=256" -O "${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png" >> "${log}"
+		wget "${wms_url}?LAYERS=${layer}&TRANSPARENT=true&REASPECT=false&FORMAT=png&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A3857&BBOX=${1},${2},${3},${4}&WIDTH=256&HEIGHT=256" -O "${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png" >> "${log}"
+	done
 }
 
 
@@ -103,4 +108,10 @@ do
 	then
 		break
 	fi
+done
+
+# Запускаем "склейку" файлов:
+for layer in ${layers}
+do
+	${create_image_script_path} "${out_dir}/${layer}/"
 done
