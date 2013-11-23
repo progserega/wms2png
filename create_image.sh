@@ -1,14 +1,17 @@
 #!/bin/bash
 
-if [ -z "${1}" ]
+if [ -z "${2}" ]
 then
 	echo "Использование:"
-	echo "$0 директория_со_скачанными_тайлами"
+	echo "$0 директория_со_скачанными_тайлами имя_файла_результата"
 	echo "Где:"
 	echo "   директория_со_скачанными_тайлами - это директория, которая содержит тайлы, скачанные с помощью скриптов wms2png"
+	echo "   имя_файла_результата - имя файла, который будет содержать результирующее изображение"
 	exit 1
 fi
 in_dir="${1}"
+out_file="${2}"
+
 
 tmp_dir="/tmp/wms2png"
 mkdir -p "${tmp_dir}"
@@ -80,7 +83,7 @@ process_create_current_full_image()
 		then
 			# Слилось в один файл
 			# Переименовываем его:
-			mv "${tmp_dir}/iteration_${iteration}-x_0-y_0.png" "${in_dir}/result.png" 
+			mv "${tmp_dir}/iteration_${iteration}-x_0-y_0.png" "${out_file}" 
 			break
 		fi
 	done

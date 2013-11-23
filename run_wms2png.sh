@@ -110,7 +110,8 @@ do
 done
 
 # Запускаем "склейку" файлов:
+mkdir "${out_dir}/result"
 for layer in ${layers}
 do
-	${create_image_script_path} "${out_dir}/${layer}/"
+	${create_image_script_path} "${out_dir}/${layer}/" "${out_dir}/result/${layer}_full_image.png"
 done
