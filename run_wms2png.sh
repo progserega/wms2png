@@ -10,9 +10,6 @@ fi
 
 source "${1}"
 
-echo "${layers}"
-
-exit
 # нижний левый угол
 x1="`echo $BBOX1|awk '{print $1}' FS=','`"
 y1="`echo $BBOX1|awk '{print $2}' FS=','`"
