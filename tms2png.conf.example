@@ -44,13 +44,13 @@ drsk_line_35"
 
 # Владивосток для лесов:
 # левый нижний квадрат:
-ZOOM="11"
-X1="1780"
-Y1="753"
+ZOOM="12"
+ZOOM="8"
+LAT_LEFT_DOWN="42.2496"
+LON_LEFT_DOWN="130.3984"
 # правый верхний квадрат:
-X2="1785"
-Y2="754"
-
+LAT_RIGHT_UP="46.7446"
+LON_RIGHT_UP="137.8633"
 
 # Адрес WMS-сервера:
 tms_url="http://tile.osm.prim.drsk.ru"
@@ -63,11 +63,13 @@ tms_url="http://tile.osm.prim.drsk.ru"
 # out_dir/osm/result.png
 # out_dir/drsk_station/result.png
 # Содержащие полные карты конкретных слоёв. Свести можно в gimp.
-out_dir="/opt/osm/local_utils/tms2png/out"
+out_dir="out"
 
 # Файл лога:
-log="/opt/osm/local_utils/wms2png/tms2png.log"
-wget_log="/opt/osm/local_utils/wms2png/wget.log"
+log="tms2png.log"
+wget_log="wget.log"
 
 # Путь до скрипта склейки файлов (скрипт требует установленного в системе imagemagick)
-create_image_script_path="/opt/osm/local_utils/wms2png/create_image.sh"
+create_image_script_path="./create_image.sh"
+
+wget_opt="--no-proxy"
