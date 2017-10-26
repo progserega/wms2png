@@ -16,7 +16,7 @@ result_file="${2}"
 tmp_dir="/tmp/wms2png"
 mkdir -p "${tmp_dir}"
 rm -f "${tmp_dir}"/*
-echo "Копирую файлы:"
+echo "Копирую файлы из ${in_dir} в ${tmp_dir}:"
 cp "${in_dir}"/* "${tmp_dir}/"
 
 process_current_full_image_iteration()
