@@ -40,8 +40,8 @@ download_tile()
 	for layer in ${layers}
 	do
 		echo "запуск команды:" >> "${log}"
-		echo "wget ${wms_url}?LAYERS=${layer}&TRANSPARENT=true&REASPECT=false&FORMAT=png&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A3857&BBOX=${1},${2},${3},${4}&WIDTH=256&HEIGHT=256" -O "${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png" -o "${wget_log} &> /dev/null" >> "${log}"
-		wget "${wms_url}?LAYERS=${layer}&TRANSPARENT=true&REASPECT=false&FORMAT=png&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A3857&BBOX=${1},${2},${3},${4}&WIDTH=256&HEIGHT=256" -O "${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png" -o "${wget_log}" &> /dev/null
+		echo "wget -t 10 --timeout=120 ${wms_url}?LAYERS=${layer}&TRANSPARENT=true&REASPECT=false&FORMAT=png&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A3857&BBOX=${1},${2},${3},${4}&WIDTH=256&HEIGHT=256" -O "${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png" -o "${wget_log} &> /dev/null" >> "${log}"
+		wget -t 10 --timeout=120 "${wms_url}?LAYERS=${layer}&TRANSPARENT=true&REASPECT=false&FORMAT=png&SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&STYLES=&SRS=EPSG%3A3857&BBOX=${1},${2},${3},${4}&WIDTH=256&HEIGHT=256" -O "${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png" -o "${wget_log}" &> /dev/null
 	done
 }
 
