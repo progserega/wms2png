@@ -7,6 +7,10 @@ import re
 import sys
 import config as conf
 
+def add_request(lat_left_bottom,lon_left_bottom,lat_right_top,lon_right_top,scale,email):
+  # TODO
+  return True
+
 # ========== main ==============
 if conf.DEBUG:
   user_familia = u"Фамилия"
@@ -87,36 +91,18 @@ else:
     print("</body></html>")
     sys.exit(1)
   layers = u"%s" % cgi.escape(form['formLayers[]'].value)
-print("form=",form)
-sys.exit()
 
 # Обрабатываем ФИО - добавляем пользователя и выводим на экран результат:
 user={}
 
-if create_drsk_user(user_familia,user_name,user_otchestvo,user_description,ou_name,user) is False:
-  log.add(u"ERROR create user: %s, %s, %s, %s" % (user_familia, user_name, user_otchestvo, user_description) )
+if add_request(lat_left_bottom,lon_left_bottom,lat_right_top,lon_right_top,scale,email) == False:
   print("<h1>Внутренняя ошибка!</h1>")
   print("</body></html>")
   sys.exit(1)
 else:
   # Всё хорошо, печатаем результат:
   print("""<h1>Результат:</h1>""")
-  print("""<p>Выполнено %d из %d задач</p>""" % (user["num_success_op"], user["num_op"]))
-  print("""<h2>Успешно создан пользователь:</h2>""")
-  print("""<h2>Имя:</h2>
-  <p>%s</p>""" % user["fio"].encode('utf8'))
-  print("""<h2>Логин:</h2>
-  <p>%s</p>""" % user["login"].encode('utf8'))
-  print("""<h2>Пароль:</h2>
-  <p><span class="password">%s</span></p>""" % user["passwd"].encode('utf8'))
-  print("""<h2>Префикс почты:</h2>
-  <p>%s</p>""" % user["email_prefix"].encode('utf8'))
-  print("""<h2>Почтовый ящик1:</h2>
-  <p>%s</p>""" % user["email_server1"].encode('utf8'))
-  print("""<h2>Почтовый ящик2:</h2>
-  <p>%s</p>""" % user["email_server2"].encode('utf8'))
-  print("<h2>Будьте внимательны с символами в пароле:</h2>")
-  print("<p><span class='info'>1 - один, l - английская прописная Л, 0 - ноль, O - английская буква, I - английская большая И</span></p>")
+  print("""<h2>Заявка успешно создана, ожидайте письма</h2>""")
   print("</body></html>")
 
   sys.exit(0)
