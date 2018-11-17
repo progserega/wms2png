@@ -6,9 +6,6 @@ import time
 import re
 import sys
 import config as conf
-import sendemail
-
-
 
 # ========== main ==============
 if conf.DEBUG:
