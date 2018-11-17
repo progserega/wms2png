@@ -8,8 +8,59 @@ import sys
 import logging
 import config as conf
 
-def add_request(lat_left_bottom,lon_left_bottom,lat_right_top,lon_right_top,scale,email):
-  # TODO
+def add_request(lat_left_bottom,lon_left_bottom,lat_right_top,lon_right_top,scale,email,layers):
+  index=1
+  conf_path=None
+  while(True):
+    conf_path=conf.config_path+"/"+email.strip()+"_%d"%index+".conf"
+    try:
+      cf=open(conf_path,"r")
+    except:
+      # нет такого файла:
+      break
+    cf.close()
+    index+=1
+  try:
+    cf=open(conf_path,"w+")
+  except:
+    log.error("can not create file: %s"%conf_path)
+    return False
+
+  # создаём конфиг:
+  conf_data="""# Конфигурационный файл для tms2png созданный скриптом через веб интерфейс
+ZOOM="%(scale)d"
+LAT_LEFT_DOWN="%(lat_left_bottom)f"
+LON_LEFT_DOWN="%(lon_left_bottom)f"
+LAT_RIGHT_UP="%(lat_right_top)f"
+LON_RIGHT_UP="%(lon_right_top)f"
+out_dir="%(out_dir)s"
+log="%(log_file)s"
+wget_log="%(wget_log)s"
+create_image_script_path="/opt/osm/local_utils/wms2png/create_image.sh"
+#wget_opt="--no-proxy"
+"""%{\
+  "lat_left_bottom":float(lat_left_bottom.strip()),\
+  "lon_left_bottom":float(lon_left_bottom.strip()),\
+  "lat_right_top":float(lat_right_top.strip()),\
+  "lon_right_top":float(lon_right_top.strip()),\
+  "scale":int(scale.strip()),\
+  "out_dir":conf.out_dir+"/"+email.strip()+"_%d"%index,\
+  "log_file":conf.out_dir+"/"+email.strip()+"_%d"%index+".log",\
+  "wget_log":conf.out_dir+"/"+email.strip()+"_%d"%index+"_wget.log"\
+}
+
+  cf.write(conf_data)
+  cf.write("tms_url=\"http://tile.osm.prim.drsk.ru\"\n")
+
+  # слои:
+  cf.write("# слои для скачивания\nlayers=\"")
+  for l in layers:
+    cf.write(l.strip())
+    cf.write(" ")
+  cf.write("\"\n")
+
+  cf.close()
+
   return True
 
 # ========== main ==============
@@ -38,12 +89,13 @@ log.addHandler(fh)
 log.info("Program started")
   
 if conf.debug:
-  lat_left_bottom=42.9275
-  lon_left_bottom=131.7008
-  lat_right_top=43.2279
-  lon_right_top=132.12
-  scale=14
+  lat_left_bottom="42.9275"
+  lon_left_bottom="131.7008"
+  lat_right_top="43.2279"
+  lon_right_top="132.12"
+  scale="14"
   email="semenov@rsprim.ru"
+  layers=["drsk_tower_04","osm"]
 else:
   form = cgi.FieldStorage()
 

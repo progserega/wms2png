@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+config_path="result_conf"
+out_dir="out"
+
 log_path="add_new_gen_map_request.log"
 debug=False
