@@ -37,7 +37,7 @@ log.addHandler(fh)
 
 log.info("Program started")
   
-if conf.DEBUG:
+if conf.debig:
   lat_left_bottom=42.9275
   lon_left_bottom=131.7008
   lat_right_top=43.2279
