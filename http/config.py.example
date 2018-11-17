@@ -2,4 +2,4 @@
 # -*- coding: utf-8 -*-
 
 log_path="add_new_gen_map_request.log"
-DEBUG=False
+debug=False
