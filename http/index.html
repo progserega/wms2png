@@ -1,0 +1,114 @@
+<html>
+<HEAD>
+<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+<TITLE>Запрос на генерацию карты</TITLE>
+<META NAME="GENERATOR" CONTENT="OpenOffice.org 3.1  (Linux)">
+<META NAME="AUTHOR" CONTENT="Сергей Семёнов">
+<META NAME="CREATED" CONTENT="20100319;10431100">
+<META NAME="CHANGEDBY" CONTENT="Сергей Семёнов">
+<META NAME="CHANGED" CONTENT="20100319;10441400">
+<STYLE TYPE="text/css">
+<!--
+@page { size: 21cm 29.7cm; margin: 2cm }
+P { margin-bottom: 0.21cm }
+-->
+</STYLE>
+
+<style>
+.normaltext {
+}
+</style>
+<style>
+.ele_null {
+color: red; /* Красный цвет выделения */
+}
+</style>
+<style>
+.selected_node {
+color: green; /* Зелёный цвет выделения */
+background: #D9FFAD;
+font-size: 150%;
+}
+</style>
+
+</HEAD>
+
+<body><h1>Создание запроса на создание карты</h1>
+
+<form method=POST action="add_new_gen_map_request.cgi">
+<P><B>Левый нижний угол квадрата нужной карты:</B>
+<P>lat:<input type=text name=lat_left_bottom> lon:<input type=text name=lon_left_bottom>
+<P><B>Правый верхний угол квадрата нужной карты:</B>
+<P>lat:<input type=text name=lat_right_top> lon:<input type=text name=lon_right_top>
+
+<P><B>Масштаб (от 1 до 20):</B>
+<P><input type=text name=scale>
+
+<P>
+Например, для Владивостока вместе с русским островом будет:<br>
+<br>Левый нижний угол квадрата нужной карты:
+<br>lat=42.9275 
+<br>lon=131.7008
+<br>Правый верхний угол квадрата нужной карты:
+<br>lat=43.2279
+<br>lon=132.12
+<br>Масштаб=17 (чтобы было видно наименования домов. Чем меньше масштаб - тем "легче" получаемая карта и меньше её детализация)
+<br>
+<br>НЕ выбирайте большие территории и малый масштаб - карта будет такой большой, что она не загрузится в графический редактор для сведения слоёв.
+<br>
+<br> Координаты можно взять на <a target="_self" href="http://map.prim.drsk.ru">карте</a> добавив в нужное место маркер и нажав по нему - в строке адреса будут координаты. Позже этот механизм будет переработан в виде простого выделения карты рамкой.
+
+<P><B>Электронная почта, куда отправлять результат:</B>
+<P><input type=text name=email>
+
+<P><B>Запрашиваемые слои карты:</B><br>
+<label for=''formLayers[]'>Выберите необходимые слои:</label><br>
+<select multiple='multiple' name='formLayers[]' size=8>
+ <option value='admin_levels'>Административные границы</option>
+ <option value='city_names'>Названия населённых пунктов крупным текстом</option>
+ <option value='drsk_fider_color'>Фидеры 0,4 расцвеченные разными цветами</option>
+ <option value='drsk_line_0_4'>Линии 0,4 кВ</option>
+ <option value='drsk_line_10'>Линии ВЛ 10 кВ</option>
+ <option value='drsk_line_110'>Линии ВЛ 110 кВ</option>
+ <option value='drsk_line_35'>Линии ВЛ 35 кВ</option>
+ <option value='drsk_line_500_220'>Линии ВЛ 220-500 кВ</option>
+ <option value='drsk_line_6'>Линии ВЛ 6 кВ</option>
+ <option value='drsk_line_construction'>Строящиеся и планируемые к постройке объекты</option>
+ <option value='drsk_line_ohran_zones'>Охранные зоны линий ВЛ</option>
+ <option value='drsk_network'>Линии связи</option>
+ <option value='drsk_objects_error'>Объекты с ошибками (без напряжения и т.п.)</option>
+ <option value='drsk_pipe'>Трубопроводы</option>
+ <option value='drsk_power_tp_usage'>Загрузки ТП</option>
+ <option value='drsk_power_usage'>Зашрузки подстанций</option>
+ <option value='drsk_station'>Подстанции</option>
+ <option value='drsk_station_ohran_zones'>Охранные зоны подстанций</option>
+ <option value='drsk_tower_04'>Опоры линий 0,4 кВ</option>
+ <option value='drsk_tower_10'>Опоры линий ВЛ 10 кВ</option>
+ <option value='drsk_tower_110'>Опоры линий ВЛ 110 кВ</option>
+ <option value='drsk_tower_220_500'>drsk_tower_220_500</option>
+ <option value='drsk_tower_35'>drsk_tower_35</option>
+ <option value='drsk_tower_6'>drsk_tower_6</option>
+ <option value='drsk_tp'>drsk_tp</option>
+ <option value='drsk_tp_quality_power'>drsk_tp_quality_power</option>
+ <option value='drsk_units'>drsk_units</option>
+ <option value='drsk_voltage_loss'>drsk_voltage_loss</option>
+ <option value='energy_admin_levels'>energy_admin_levels</option>
+ <option value='groz_front'>groz_front</option>
+ <option value='local_osm'>local_osm</option>
+ <option value='local_osm2'>local_osm2</option>
+ <option value='local_osm_max'>local_osm_max</option>
+ <option value='nature_reserve'>nature_reserve</option>
+ <option value='paper_admin_levels'>paper_admin_levels</option>
+ <option value='paper_map_drsk_line_110'>paper_map_drsk_line_110</option>
+ <option value='paper_map_drsk_line_35'>paper_map_drsk_line_35</option>
+ <option value='paper_map_drsk_line_500_220'>paper_map_drsk_line_500_220</option>
+ <option value='paper_map_drsk_station'>paper_map_drsk_station</option>
+ <option value='paper_map_drsk_station_no_labels'>paper_map_drsk_station_no_labels</option>
+ <option value='sammit'>sammit</option>
+ <option value='tor'>tor</option>
+</select>
+
+<P><input type=submit>
+</form>
+
+</body></html>
