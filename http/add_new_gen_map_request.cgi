@@ -13,16 +13,12 @@ def add_request(lat_left_bottom,lon_left_bottom,lat_right_top,lon_right_top,scal
 
 # ========== main ==============
 if conf.DEBUG:
-  user_familia = u"Фамилия"
-  user_name = u"Имя"
-  user_otchestvo = u"Отчество"
-  user_description = u"(А - для сортировки) описание"
-  user_addr="DEBUG - empty"
-  ou_name = u"filial"
-  web_user_name="DEBUG script in console"
-  web_user_agent="console"
-  web_user_addr="127.0.0.1"
-  web_user_host="localhost"
+  lat_left_bottom=42.9275
+  lon_left_bottom=131.7008
+  lat_right_top=43.2279
+  lon_right_top=132.12
+  scale=14
+  email="semenov@rsprim.ru"
 else:
   form = cgi.FieldStorage()
 
