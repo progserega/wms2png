@@ -107,17 +107,21 @@ else:
     lon_right_top = "%s" % cgi.escape(form['lon_right_top'].value)
     scale = "%s" % cgi.escape(form['scale'].value)
     email = "%s" % cgi.escape(form['email'].value)
+    layers_list = form['formLayers[]']
+    layers=[]
+    for i in layers_list:
+      layers.append(cgi.escape(i.value))
   else:
     print("Необходимо заполнить все поля")
     print("</body></html>")
+    log.info("exit")
     sys.exit(1)
-  layers = u"%s" % cgi.escape(form['formLayers[]'].value)
 
 
 # Обрабатываем ФИО - добавляем пользователя и выводим на экран результат:
 user={}
 
-if add_request(lat_left_bottom,lon_left_bottom,lat_right_top,lon_right_top,scale,email) == False:
+if add_request(lat_left_bottom,lon_left_bottom,lat_right_top,lon_right_top,scale,email,layers) == False:
   print("<h1>Внутренняя ошибка!</h1>")
   print("</body></html>")
   sys.exit(1)
