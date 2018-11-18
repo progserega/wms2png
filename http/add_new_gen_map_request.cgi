@@ -176,8 +176,8 @@ else:
 try:
   lat_left_bottom_f=float(lat_left_bottom.strip())
   lon_left_bottom_f=float(lon_left_bottom.strip())
-  lat_right_top_f=float(lat_left_bottom.strip())
-  lon_right_top_f=float(lat_left_bottom.strip())
+  lat_right_top_f=float(lat_right_top.strip())
+  lon_right_top_f=float(lon_right_top.strip())
   scale_i=int(scale.strip())
   if '@' not in email or 'drsk.ru' not in email and 'rsprim.ru' not in email:
     print("Неверно указан почтовый адрес (почтовый адрес должен принадлежать внутренним почтовым серверам АО ДРСК)")
