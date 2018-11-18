@@ -24,8 +24,8 @@ do
     rm "$conf_file"
     # удаляем данные этой генерации:
     echo "`date +%Y.%m.%d-%T`: чистка временных данных:" >> "${log}"
-    echo "rm -vrf ${out_dir}" >> "${log}"
-    rm -vrf "${out_dir}" >> "${log}"
+    echo "rm -rf ${out_dir}" >> "${log}"
+    rm -rf "${out_dir}" >> "${log}"
     exit 1
   fi
   # Отправляем результат:
@@ -40,8 +40,8 @@ do
   # удаляем данные этой генерации:
   rm "$conf_file"
   echo "`date +%Y.%m.%d-%T`: чистка временных данных:" >> "${log}"
-  echo "rm -vrf ${out_dir}" >> "${log}"
-  rm -vrf "${out_dir}" >> "${log}"
+  echo "rm -rf ${out_dir}" >> "${log}"
+  rm -rf "${out_dir}" >> "${log}"
 done
 
 # чистка директории экспорта:
