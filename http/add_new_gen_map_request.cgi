@@ -185,7 +185,7 @@ try:
     log.info("exit")
     sys.exit(1)
   # размер получаемой карты (2.5 - на глазок):
-  size=(lat_right_top_f-lat_left_bottom_f)*($lon_right_top_f-lon_left_bottom_f)*scale_i
+  size=(lat_right_top_f-lat_left_bottom_f)*(lon_right_top_f-lon_left_bottom_f)*scale_i
   if size > 2.5:
     print("Вы запрашиваете слишком большой размер карты. Попробуйте уменьшить либо размер квадрата либо масштаб")
     print("</body></html>")
