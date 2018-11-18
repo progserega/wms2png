@@ -8,8 +8,11 @@ email_server="mail.rsprim.ru"
 
 find $generated_conf_dirs -type f|while read conf_file
 do
+  echo "`date +%Y.%m.%d-%T`: ==== start proccess map request for $email_result_to by $conf_file" >> ${log}
+  cat $conf_file >> "${log}"
   source $conf_file
-  echo "`date +%Y.%m.%d-%T`: ==== start proccess map request for $email_result_to by $conf_file"
+  echo "`date +%Y.%m.%d-%T`: ==== start proccess map request for $email_result_to by $conf_file" >> ${log}
+  cat $conf_file >> "${log}"
   /opt/osm/local_utils/wms2png/run_tms2png.sh "$conf_file"
   if [ 0 != $? ]
   then
