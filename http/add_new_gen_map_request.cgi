@@ -12,7 +12,7 @@ def add_request(lat_left_bottom,lon_left_bottom,lat_right_top,lon_right_top,scal
   index=1
   conf_path=None
   while(True):
-    conf_path=conf.config_path+"/"+email.strip()+"_%d"%index+".conf"
+    conf_path=conf.config_path+"/"+email+"_%d"%index+".conf"
     try:
       cf=open(conf_path,"r")
     except:
@@ -38,15 +38,17 @@ log="%(log_file)s"
 wget_log="%(wget_log)s"
 create_image_script_path="/opt/osm/local_utils/wms2png/create_image.sh"
 #wget_opt="--no-proxy"
+email_result_to="%(email)s"
 """%{\
-  "lat_left_bottom":float(lat_left_bottom.strip()),\
-  "lon_left_bottom":float(lon_left_bottom.strip()),\
-  "lat_right_top":float(lat_right_top.strip()),\
-  "lon_right_top":float(lon_right_top.strip()),\
-  "scale":int(scale.strip()),\
-  "out_dir":conf.out_dir+"/"+email.strip()+"_%d"%index,\
-  "log_file":conf.out_dir+"/"+email.strip()+"_%d"%index+".log",\
-  "wget_log":conf.out_dir+"/"+email.strip()+"_%d"%index+"_wget.log"\
+  "lat_left_bottom":lat_left_bottom,\
+  "lon_left_bottom":lon_left_bottom,\
+  "lat_right_top":lat_right_top,\
+  "lon_right_top":lon_right_top,\
+  "scale":scale,\
+  "out_dir":conf.out_dir+"/"+email+"_%d"%index,\
+  "log_file":conf.out_dir+"/"+email+"_%d"%index+".log",\
+  "email":email,\
+  "wget_log":conf.out_dir+"/"+email+"_%d"%index+"_wget.log"\
 }
 
   cf.write(conf_data)
@@ -169,11 +171,35 @@ else:
     log.info("exit")
     sys.exit(1)
 
+# проверяем параметры:
+try:
+  lat_left_bottom_f=float(lat_left_bottom.strip())
+  lon_left_bottom_f=float(lon_left_bottom.strip())
+  lat_right_top_f=float(lat_left_bottom.strip())
+  lon_right_top_f=float(lat_left_bottom.strip())
+  scale_i=int(scale.strip())
+  if '@' not in email or 'drsk.ru' not in email and 'rsprim.ru' not in email:
+    print("Неверно указан почтовый адрес (почтовый адрес должен принадлежать внутренним почтовым серверам АО ДРСК)")
+    print("</body></html>")
+    log.error("error email=%s"%email)
+    log.info("exit")
+    sys.exit(1)
+  # размер получаемой карты (2.5 - на глазок):
+  size=(lat_right_top_f-lat_left_bottom_f)*($lon_right_top_f-lon_left_bottom_f)*scale_i
+  if size > 2.5:
+    print("Вы запрашиваете слишком большой размер карты. Попробуйте уменьшить либо размер квадрата либо масштаб")
+    print("</body></html>")
+    log.error("error size map too big")
+    log.info("exit")
+    sys.exit(1)
+except:
+  print("Неверно указаны координаты (отделяйте дробную часть точкой)")
+  print("</body></html>")
+  log.error("error input coordinates")
+  log.info("exit")
+  sys.exit(1)
 
-# Обрабатываем ФИО - добавляем пользователя и выводим на экран результат:
-user={}
-
-if add_request(lat_left_bottom,lon_left_bottom,lat_right_top,lon_right_top,scale,email,layers) == False:
+if add_request(lat_left_bottom_f,lon_left_bottom_f,lat_right_top_f,lon_right_top_f,scale_i,email.strip(),layers) == False:
   print("<h1>Внутренняя ошибка!</h1>")
   print("</body></html>")
   sys.exit(1)
