@@ -19,6 +19,10 @@ do
     cat $conf_file >> "${log}"
     sendEmail -o tls=no -s $email_server -f $email_from -t $email_result_to -u "error process map create by your request" -m "Карта для вас не сгенерирована. Возможно проблема во входных данных от вас или дело во внутренних проблемах в системе. Обратитесь к системному администратору" 
     rm "$conf_file"
+    # удаляем данные этой генерации:
+    echo "`date +%Y.%m.%d-%T`: чистка временных данных:" >> "${log}"
+    echo "rm -vrf ${out_dir}" >> "${log}"
+    rm -vrf "${out_dir}" >> "${log}"
     exit 1
   fi
   # Отправляем результат:
@@ -33,7 +37,7 @@ do
   # удаляем данные этой генерации:
   echo "`date +%Y.%m.%d-%T`: чистка временных данных:" >> "${log}"
   echo "rm -vrf ${out_dir}" >> "${log}"
-  #rm -vrf "${out_dir}" >> "${log}"
+  rm -vrf "${out_dir}" >> "${log}"
 done
 
 # чистка директории экспорта:
