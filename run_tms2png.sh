@@ -119,6 +119,8 @@ do
 	file_y_index=`expr $file_y_index + 1`
 	if [ 1 -eq $exit_status ]
 	then
+    echo "`date +%Y.%m.%d-%T`: error exit_status = 1" 
+    echo "`date +%Y.%m.%d-%T`: error exit_status == 1" >> "${log}"
     exit 1
 	fi
 done
