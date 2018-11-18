@@ -179,24 +179,26 @@ try:
   lat_right_top_f=float(lat_right_top.strip())
   lon_right_top_f=float(lon_right_top.strip())
   scale_i=int(scale.strip())
-  if '@' not in email or 'drsk.ru' not in email and 'rsprim.ru' not in email:
-    print("Неверно указан почтовый адрес (почтовый адрес должен принадлежать внутренним почтовым серверам АО ДРСК)")
-    print("</body></html>")
-    log.error("error email=%s"%email)
-    log.info("exit")
-    sys.exit(1)
-  # размер получаемой карты (2.5 - на глазок):
-  size=(lat_right_top_f-lat_left_bottom_f)*(lon_right_top_f-lon_left_bottom_f)*scale_i
-  if size > 2.5:
-    print("Вы запрашиваете слишком большой размер карты. Попробуйте уменьшить либо размер квадрата либо масштаб")
-    print("</body></html>")
-    log.error("error size map too big")
-    log.info("exit")
-    sys.exit(1)
 except:
   print("Неверно указаны координаты (отделяйте дробную часть точкой)")
   print("</body></html>")
   log.error("error input coordinates")
+  log.info("exit")
+  sys.exit(1)
+
+if '@' not in email or 'drsk.ru' not in email and 'rsprim.ru' not in email:
+  print("Неверно указан почтовый адрес (почтовый адрес должен принадлежать внутренним почтовым серверам АО ДРСК)")
+  print("</body></html>")
+  log.error("error email=%s"%email)
+  log.info("exit")
+  sys.exit(1)
+
+# размер получаемой карты (2.5 - на глазок):
+size=(lat_right_top_f-lat_left_bottom_f)*(lon_right_top_f-lon_left_bottom_f)*scale_i
+if size > 2.5:
+  print("Вы запрашиваете слишком большой размер карты. Попробуйте уменьшить либо размер квадрата либо масштаб")
+  print("</body></html>")
+  log.error("error size map too big")
   log.info("exit")
   sys.exit(1)
 
