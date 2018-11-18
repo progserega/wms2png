@@ -1,0 +1,1 @@
+*/10 * * * * root www-data [ 0 -eq `ps aux|grep proccess_map_requests.sh|grep -v grep|wc -l` ] && /opt/osm/local_utils/wms2png/cron/proccess_map_requests.sh
