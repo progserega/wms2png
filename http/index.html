@@ -64,6 +64,7 @@ font-size: 150%;
 <P><B>Запрашиваемые слои карты:</B><br>
 <label for=''formLayers[]'>Выберите необходимые слои:</label><br>
 <select multiple='multiple' name='formLayers[]' size=8>
+ <option value='osm'>Карта пдложки OSM</option>
  <option value='admin_levels'>Административные границы</option>
  <option value='city_names'>Названия населённых пунктов крупным текстом</option>
  <option value='drsk_fider_color'>Фидеры 0,4 расцвеченные разными цветами</option>
@@ -85,27 +86,24 @@ font-size: 150%;
  <option value='drsk_tower_04'>Опоры линий 0,4 кВ</option>
  <option value='drsk_tower_10'>Опоры линий ВЛ 10 кВ</option>
  <option value='drsk_tower_110'>Опоры линий ВЛ 110 кВ</option>
- <option value='drsk_tower_220_500'>drsk_tower_220_500</option>
- <option value='drsk_tower_35'>drsk_tower_35</option>
- <option value='drsk_tower_6'>drsk_tower_6</option>
- <option value='drsk_tp'>drsk_tp</option>
- <option value='drsk_tp_quality_power'>drsk_tp_quality_power</option>
- <option value='drsk_units'>drsk_units</option>
+ <option value='drsk_tower_220_500'>Опоры линий 220-500 кВ</option>
+ <option value='drsk_tower_35'>Опоры линий 35 кВ</option>
+ <option value='drsk_tower_6'>Опоры линий 6 кВ</option>
+ <option value='drsk_tp'>Слой ТП/ЗТП/КТП</option>
+ <option value='drsk_tp_quality_power'>Слой качества электроэнергии</option>
+ <option value='drsk_units'>Управления, РЭС, мастерские участки</option>
  <option value='drsk_voltage_loss'>drsk_voltage_loss</option>
- <option value='energy_admin_levels'>energy_admin_levels</option>
- <option value='groz_front'>groz_front</option>
- <option value='local_osm'>local_osm</option>
- <option value='local_osm2'>local_osm2</option>
- <option value='local_osm_max'>local_osm_max</option>
- <option value='nature_reserve'>nature_reserve</option>
- <option value='paper_admin_levels'>paper_admin_levels</option>
- <option value='paper_map_drsk_line_110'>paper_map_drsk_line_110</option>
- <option value='paper_map_drsk_line_35'>paper_map_drsk_line_35</option>
- <option value='paper_map_drsk_line_500_220'>paper_map_drsk_line_500_220</option>
- <option value='paper_map_drsk_station'>paper_map_drsk_station</option>
- <option value='paper_map_drsk_station_no_labels'>paper_map_drsk_station_no_labels</option>
- <option value='sammit'>sammit</option>
- <option value='tor'>tor</option>
+ <option value='energy_admin_levels'>Деление на СП и РЭС-ы</option>
+ <option value='groz_front'>Среднегодовая продолжительность гроз</option>
+ <option value='nature_reserve'>Заповедники</option>
+ <option value='paper_admin_levels'>Административные границы (крупно - для бумажной карты)</option>
+ <option value='paper_map_drsk_line_110'>Линии 110 кВ (крупно - для бумажной карты)</option>
+ <option value='paper_map_drsk_line_35'>Линии 35 кВ (крупно - для бумажной карты)</option>
+ <option value='paper_map_drsk_line_500_220'>Линии 220-500 кВ (крупно - для бумажной карты)</option>
+ <option value='paper_map_drsk_station'>Подстанции (крупно - для бумажной карты)</option>
+ <option value='paper_map_drsk_station_no_labels'>Подстанции без подписей (для бумажной карты)</option>
+ <option value='sammit'>Объекты саммита</option>
+ <option value='tor'>ТОР-ы</option>
 </select>
 
 <P><input type=submit>
