@@ -97,8 +97,7 @@ do
 			then
 				echo "`date +%Y.%m.%d-%T`: error process_bbox()!" 
 				echo "`date +%Y.%m.%d-%T`: error process_bbox()!" >> "${log}"
-				exit_status=1
-				break
+				exit 1
 			fi
 
 			#############################
@@ -120,13 +119,20 @@ do
 	file_y_index=`expr $file_y_index + 1`
 	if [ 1 -eq $exit_status ]
 	then
-		break
+    exit 1
 	fi
 done
+
 
 # Запускаем "склейку" файлов:
 mkdir "${out_dir}/result"
 for layer in ${layers}
 do
 	${create_image_script_path} "${out_dir}/${layer}/" "${out_dir}/result/${layer}_full_image.png"
+  if [ ! 0 -eq $? ]
+  then
+    echo "`date +%Y.%m.%d-%T`: error ${create_image_script_path} ${out_dir}/${layer}/ ${out_dir}/result/${layer}_full_image.png" 
+    echo "`date +%Y.%m.%d-%T`: exit!" >> "${log}"
+    exit 1
+  fi
 done
