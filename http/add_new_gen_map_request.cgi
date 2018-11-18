@@ -195,7 +195,7 @@ if '@' not in email or 'drsk.ru' not in email and 'rsprim.ru' not in email:
 
 # размер получаемой карты (2.5 - на глазок):
 size=(lat_right_top_f-lat_left_bottom_f)*(lon_right_top_f-lon_left_bottom_f)*scale_i
-if size > 2.5 or scale_i>18:
+if size > 2.5 or scale_i>17:
   print("Вы запрашиваете слишком большой размер карты. Попробуйте уменьшить либо размер квадрата либо масштаб")
   print("</body></html>")
   log.error("error size map too big")
