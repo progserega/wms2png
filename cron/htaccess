@@ -1,0 +1,8 @@
+<Files "config.py">
+Order Deny,Allow
+Deny from all
+</Files>
+<Files "config.pyc">
+Order Deny,Allow
+Deny from all
+</Files>
