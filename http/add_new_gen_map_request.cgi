@@ -202,6 +202,11 @@ if size > 2.5 or scale_i>18:
   log.info("exit")
   sys.exit(1)
 
+log.info("request: %f,%f-%f,%f size: %d, email: %s"%(lat_left_bottom_f,lon_left_bottom_f,lat_right_top_f,lon_right_top_f,scale_i,email))
+
+for layer in layers:
+  log.info("layer: %s"%layer)
+
 if add_request(lat_left_bottom_f,lon_left_bottom_f,lat_right_top_f,lon_right_top_f,scale_i,email.strip(),layers) == False:
   print("<h1>Внутренняя ошибка!</h1>")
   print("</body></html>")
