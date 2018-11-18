@@ -38,12 +38,23 @@ download_tile()
 		echo "запуск команды:" >> "${log}"
 		echo "wget ${wget_opt} ${tms_url}/${layer}/${1}/${2}/${3}.png -O ${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png -o ${wget_log} &> /dev/null"
 		echo "wget ${wget_opt} ${tms_url}/${layer}/${1}/${2}/${3}.png -O ${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png -o ${wget_log} &> /dev/null" >> "${log}"
-	  wget ${wget_opt} "${tms_url}/${layer}/${1}/${2}/${3}.png" -O "${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png" -o "${wget_log}" &> /dev/null
-    if [ 0 != $? ]
-    then
-      echo "wget error! exit" >> "${log}"
-      return 1
-    fi
+    # 10 попыток скачать:
+    for((try=0;try<=10;try++))
+    do
+      wget ${wget_opt} "${tms_url}/${layer}/${1}/${2}/${3}.png" -O "${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png" -o "${wget_log}" &> /dev/null
+      if [ 0 == $? ]
+      then
+        # success
+        break
+      fi
+      sleep 10
+      if [ $try == 10 ]
+      then
+        echo "10 try wget start is fail. stop dounload. return 1" >> "${log}"
+        echo "fail url: ${tms_url}/${layer}/${1}/${2}/${3}.png" >> "${log}"
+        return 1
+      fi
+    done
 	done
 }
 
