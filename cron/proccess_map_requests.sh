@@ -35,6 +35,7 @@ do
   sendEmail -o tls=no -o message-charset=utf-8 -s $email_server -f $email_from -t $email_result_to -u "=?utf-8?b?`echo 'бумажная карта готова!'|base64 -w 0`?=" -m "Карта для вас сгенерирована. Вы можете скачать архив со сгенерированными для вас слоями по ссылке:  $export_url/$tar_name"
 
   # удаляем данные этой генерации:
+  rm "$conf_file"
   echo "`date +%Y.%m.%d-%T`: чистка временных данных:" >> "${log}"
   echo "rm -vrf ${out_dir}" >> "${log}"
   rm -vrf "${out_dir}" >> "${log}"
