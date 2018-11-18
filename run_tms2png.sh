@@ -39,6 +39,11 @@ download_tile()
 		echo "wget ${wget_opt} ${tms_url}/${layer}/${1}/${2}/${3}.png -O ${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png -o ${wget_log} &> /dev/null"
 		echo "wget ${wget_opt} ${tms_url}/${layer}/${1}/${2}/${3}.png -O ${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png -o ${wget_log} &> /dev/null" >> "${log}"
 	  wget ${wget_opt} "${tms_url}/${layer}/${1}/${2}/${3}.png" -O "${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png" -o "${wget_log}" &> /dev/null
+    if [ 0 != $? ]
+    then
+      echo "wget error! exit" >> "${log}"
+      return 1
+    fi
 	done
 }
 

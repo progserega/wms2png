@@ -38,6 +38,7 @@ log="%(log_file)s"
 wget_log="%(wget_log)s"
 create_image_script_path="/opt/osm/local_utils/wms2png/create_image.sh"
 #wget_opt="--no-proxy"
+wget_opt="--no-proxy --tries=10 --timeout=10"
 email_result_to="%(email)s"
 """%{\
   "lat_left_bottom":lat_left_bottom,\
