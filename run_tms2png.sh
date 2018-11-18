@@ -48,7 +48,7 @@ download_tile()
         break
       fi
       sleep 10
-      if [ $try == 10 ]
+      if [ $try -eq 10 ]
       then
         echo "10 try wget start is fail. stop dounload. return 1" >> "${log}"
         echo "fail url: ${tms_url}/${layer}/${1}/${2}/${3}.png" >> "${log}"
