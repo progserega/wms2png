@@ -65,4 +65,4 @@ done
 # чистка директории экспорта:
 echo "`date +%Y.%m.%d-%T`: чистка директории экспорта:" >> "${log}"
 find "${export_dir}" -mtime +7 -and -type f -print  >> "${log}"
-#find "${export_dir}" -mtime +7 -and -type f -delete
+find "${export_dir}" -mtime +7 -and -type f -delete
