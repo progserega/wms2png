@@ -47,9 +47,9 @@ email_result_to="%(email)s"
   "lon_right_top":lon_right_top,\
   "scale":scale,\
   "out_dir":conf.out_dir+"/"+email+"_%d"%index,\
-  "log_file":conf.out_dir+"/"+email+"_%d"%index+".log",\
+  "log_file":conf.log_dir+"/"+email+"_%d"%index+".log",\
   "email":email,\
-  "wget_log":conf.out_dir+"/"+email+"_%d"%index+"_wget.log"\
+  "wget_log":conf.log_dir+"/"+email+"_%d"%index+"_wget.log"\
 }
 
   cf.write(conf_data)

@@ -2,7 +2,7 @@
 generated_conf_dirs="/var/osm/wms2png/generted_conf_files"
 export_dir="/opt/osm/local_web_services/wms2png/out"
 export_url="http://tools.map.prim.drsk.ru/wms2png/out"
-log="/var/log/osm/wms2png/web_service_map_request.log"
+log="/var/log/osm/wms2png/cron_process_map_request.log"
 email_from="semenov@rsprim.ru"
 email_server="mail.rsprim.ru"
 
