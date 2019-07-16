@@ -68,6 +68,7 @@ fi
 
 source "${1}"
 
+echo "`date +%Y.%m.%d-%T`: =======   start run_tms2png.sh $1  ============" >> "${log}"
 
 X1=$( long2xtile ${LON_LEFT_DOWN} ${ZOOM} );
 Y1=$( lat2ytile ${LAT_LEFT_DOWN} ${ZOOM} ${TMS} );
@@ -94,6 +95,8 @@ exit_status=0
 
 cur_x=$X1
 cur_y=$Y1
+
+echo "`date +%Y.%m.%d-%T`: begin download layers..." >> "${log}"
 
 while /bin/true
 do
@@ -136,6 +139,8 @@ do
 	fi
 done
 
+echo "`date +%Y.%m.%d-%T`: ==== success  download layers  ====" >> "${log}"
+echo "`date +%Y.%m.%d-%T`: ==== begin montage full layers ====" >> "${log}"
 
 # Запускаем "склейку" файлов:
 mkdir "${out_dir}/result"
@@ -144,8 +149,11 @@ do
 	${create_image_script_path} "${out_dir}/${layer}/" "${out_dir}/result/${layer}_full_image.png"
   if [ ! 0 -eq $? ]
   then
-    echo "`date +%Y.%m.%d-%T`: error ${create_image_script_path} ${out_dir}/${layer}/ ${out_dir}/result/${layer}_full_image.png" 
+    echo "`date +%Y.%m.%d-%T`: error ${create_image_script_path} ${out_dir}/${layer}/ ${out_dir}/result/${layer}_full_image.png" >> "${log}"
     echo "`date +%Y.%m.%d-%T`: exit!" >> "${log}"
     exit 1
   fi
 done
+echo "`date +%Y.%m.%d-%T`: ==== success montage full layers ====" >> "${log}"
+echo "`date +%Y.%m.%d-%T`: ==== end success create tms-map ====" >> "${log}"
+exit 0
