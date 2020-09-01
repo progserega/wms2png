@@ -6,4 +6,5 @@ out_dir="out"
 
 log_dir="."
 log_path=log_dir+"/add_new_gen_map_request.log"
-debug=False
+debug=True
+console=False

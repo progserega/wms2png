@@ -79,19 +79,19 @@ fh = logging.FileHandler(conf.log_path)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
 
-#if conf.debug:
-#  # логирование в консоль:
-#  #stdout = logging.FileHandler("/dev/stdout")
-#  stdout = logging.StreamHandler(sys.stdout)
-#  stdout.setFormatter(formatter)
-#  log.addHandler(stdout)
+if conf.console:
+  # логирование в консоль:
+  #stdout = logging.FileHandler("/dev/stdout")
+  stdout = logging.StreamHandler(sys.stdout)
+  stdout.setFormatter(formatter)
+  log.addHandler(stdout)
 
 # add handler to logger object
 log.addHandler(fh)
 
 log.info("Program started")
   
-if conf.debug:
+if conf.console:
   lat_left_bottom="42.9275"
   lon_left_bottom="131.7008"
   lat_right_top="43.2279"
@@ -148,7 +148,7 @@ else:
   </head>
   <body>
   """ )
-
+try:
   # Поле 'work_sites_regex' содержит не пустое значение:
   if 'lat_left_bottom' in form \
     and 'scale' in form \
@@ -164,13 +164,25 @@ else:
     email = "%s" % cgi.escape(form['email'].value)
     layers_list = form['formLayers[]']
     layers=[]
-    for i in layers_list:
-      layers.append(cgi.escape(i.value))
+    if type(layers_list) == list:
+      log.debug("many layer - add as list")
+      for i in layers_list:
+        layers.append(cgi.escape(i.value))
+    else:
+      log.debug("one layer - add as string")
+      layers.append(cgi.escape(layers_list.value))
+
   else:
     print("Необходимо заполнить все поля")
     print("</body></html>")
     log.info("exit")
     sys.exit(1)
+except:
+  print("Ошибка разбора параметров - обратитесь к администратору")
+  print("</body></html>")
+  log.error("error parse parameters")
+  log.error("exit")
+  sys.exit(1)
 
 # проверяем параметры:
 try:
