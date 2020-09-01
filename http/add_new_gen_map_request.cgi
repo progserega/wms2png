@@ -79,12 +79,12 @@ fh = logging.FileHandler(conf.log_path)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 fh.setFormatter(formatter)
 
-if conf.debug:
-  # логирование в консоль:
-  #stdout = logging.FileHandler("/dev/stdout")
-  stdout = logging.StreamHandler(sys.stdout)
-  stdout.setFormatter(formatter)
-  log.addHandler(stdout)
+#if conf.debug:
+#  # логирование в консоль:
+#  #stdout = logging.FileHandler("/dev/stdout")
+#  stdout = logging.StreamHandler(sys.stdout)
+#  stdout.setFormatter(formatter)
+#  log.addHandler(stdout)
 
 # add handler to logger object
 log.addHandler(fh)
