@@ -53,7 +53,7 @@ email_result_to="%(email)s"
 }
 
   cf.write(conf_data)
-  cf.write("tms_url=\"http://tile.osm.prim.drsk.ru\"\n")
+  cf.write("tms_url=\"http://b.tile.osm.prim.drsk.ru\"\n")
 
   # слои:
   cf.write("# слои для скачивания\nlayers=\"")
