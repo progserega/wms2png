@@ -6,7 +6,7 @@ log="/var/log/osm/wms2png/cron_process_map_request.log"
 email_from="semenov@rsprim.ru"
 email_server="mail.rsprim.ru"
 
-find $generated_conf_dirs -type f|while read conf_file
+find $generated_conf_dirs -type f -and -name '*_new.conf'|while read conf_file
 do
   echo "`date +%Y.%m.%d-%T`: ==== start proccess map request for $email_result_to by $conf_file" >> ${log}
   cat $conf_file >> "${log}"
@@ -27,7 +27,10 @@ do
     else
       echo "ERROR send email to $email_result_to about ERROR map create" >> "${log}"
     fi
-    rm "$conf_file"
+    # переименовываем входной конфиг как "неудачно-отработанный":
+    error_conf_name="`echo $conf_file`|sed 's/_new.conf/_error.conf/"
+    echo "`date +%Y.%m.%d-%T`: mv $conf_file $error_conf_name" >> "${log}"
+    mv "$conf_file" "$error_conf_name"
     # удаляем данные этой генерации:
     echo "`date +%Y.%m.%d-%T`: чистка временных данных:" >> "${log}"
     echo "rm -rf ${out_dir}" >> "${log}"
@@ -59,6 +62,12 @@ do
   rm "$conf_file"
   echo "`date +%Y.%m.%d-%T`: чистка временных данных:" >> "${log}"
   echo "rm -rf ${out_dir}" >> "${log}"
+
+  # переименовываем входной конфиг как "неудачно-отработанный":
+  success_conf_name="`echo $conf_file`|sed 's/_new.conf/_success.conf/"
+  echo "`date +%Y.%m.%d-%T`: mv $conf_file $success_conf_name" >> "${log}"
+  mv "$conf_file" "$success_conf_name"
+
   rm -rf "${out_dir}" >> "${log}"
 done
 

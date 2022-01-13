@@ -10,20 +10,50 @@ import config as conf
 
 def add_request(lat_left_bottom,lon_left_bottom,lat_right_top,lon_right_top,scale,email,layers):
   index=1
-  conf_path=None
+  conf_path_new=None
+  conf_path_success=None
+  conf_path_error=None
   while(True):
-    conf_path=conf.config_path+"/"+email+"_%d"%index+".conf"
+    conf_path_new=conf.config_path+"/"+email+"_%d"%index+"_new.conf"
+    conf_path_success=conf.config_path+"/"+email+"_%d"%index+"_success.conf"
+    conf_path_error=conf.config_path+"/"+email+"_%d"%index+"_error.conf"
+    cf_new_flag=False
+    cf_success_flag=False
+    cf_error_flag=False
     try:
-      cf=open(conf_path,"r")
+      cf_new=open(conf_path_new,"r")
+      cf_new_flag=True
+      cf_new.close()
     except:
       # нет такого файла:
       break
-    cf.close()
+    try:
+      cf_success=open(conf_path_success,"r")
+      cf_success_flag=True
+      cf_success.close()
+    except:
+      # нет такого файла:
+      break
+    try:
+      cf_error=open(conf_path_error,"r")
+      cf_error_flag=True
+      cf_error.close()
+    except:
+      # нет такого файла:
+      break
+
+    if cf_new_flag == False and cf_success_flag == False and cf_error_flag == False:
+      # нет ни одного файла с любым статусом - создаём новый файл задачи с этим (index) индексом:
+      break
+    else:
+      # увеличиваем индекс и ищем следующий файл:
+      pass
     index+=1
+
   try:
-    cf=open(conf_path,"w+")
+    cf=open(conf_path_new,"w+")
   except:
-    log.error("can not create file: %s"%conf_path)
+    log.error("can not create file: %s"%conf_path_new)
     return False
 
   # создаём конфиг:
