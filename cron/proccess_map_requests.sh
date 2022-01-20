@@ -28,7 +28,7 @@ do
       echo "ERROR send email to $email_result_to about ERROR map create" >> "${log}"
     fi
     # переименовываем входной конфиг как "неудачно-отработанный":
-    error_conf_name="`echo $conf_file`|sed 's/_new.conf/_error.conf/"
+    error_conf_name="`echo $conf_file|sed 's/_new.conf/_error.conf/'`"
     echo "`date +%Y.%m.%d-%T`: mv $conf_file $error_conf_name" >> "${log}"
     mv "$conf_file" "$error_conf_name"
     # удаляем данные этой генерации:
@@ -64,7 +64,7 @@ do
   echo "rm -rf ${out_dir}" >> "${log}"
 
   # переименовываем входной конфиг как "неудачно-отработанный":
-  success_conf_name="`echo $conf_file`|sed 's/_new.conf/_success.conf/"
+  success_conf_name="`echo $conf_file|sed 's/_new.conf/_success.conf/'`"
   echo "`date +%Y.%m.%d-%T`: mv $conf_file $success_conf_name" >> "${log}"
   mv "$conf_file" "$success_conf_name"
 
