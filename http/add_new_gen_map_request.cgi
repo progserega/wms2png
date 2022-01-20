@@ -237,11 +237,11 @@ if '@' not in email or 'drsk.ru' not in email and 'rsprim.ru' not in email:
 
 # размер получаемой карты (2.5 - на глазок):
 size=(lat_right_top_f-lat_left_bottom_f)*(lon_right_top_f-lon_left_bottom_f)*scale_i
-if size > 2.5 or scale_i>17:
-  print("Вы запрашиваете слишком большой размер карты. Попробуйте уменьшить либо размер квадрата либо масштаб")
+if size > 200 or scale_i>17:
+  print("Вы запрашиваете слишком большой размер карты. Попробуйте уменьшить либо размер квадрата либо масштаб: size=%f (maxsize=200)"%size)
   print("</body></html>")
   log.error("%s: error size map too big (size=%f, scale_i=%f)"%(email, size, scale_i))
-  log.error("%s: bbox was: %f,%f - %f,%f scale_i=%f)"%(email, lat_left_bottom_f,lon_left_bottom_f,lat_right_top_f,lon_right_top_f))
+  log.error("%s: bbox was: %f,%f - %f,%f scale_i=%f)"%(email, lat_left_bottom_f,lon_left_bottom_f,lat_right_top_f,lon_right_top_f,scale_i))
   log.info("exit")
   sys.exit(1)
 
