@@ -245,7 +245,7 @@ if size > 200 or scale_i>17:
   log.info("exit")
   sys.exit(1)
 
-log.info("request: %f,%f-%f,%f size: %d, email: %s"%(lat_left_bottom_f,lon_left_bottom_f,lat_right_top_f,lon_right_top_f,scale_i,email))
+log.info("request: %f,%f-%f,%f scale: %d, size: %f (max 200), email: %s"%(lat_left_bottom_f,lon_left_bottom_f,lat_right_top_f,lon_right_top_f,scale_i,size,email))
 
 for layer in layers:
   log.info("layer: %s"%layer)
