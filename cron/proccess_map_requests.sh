@@ -58,20 +58,18 @@ do
     echo "ERROR send email to $email_result_to about map success on url: $export_url/$tar_name" >> "${log}"
   fi
 
-  # удаляем данные этой генерации:
-  rm "$conf_file"
-  echo "`date +%Y.%m.%d-%T`: чистка временных данных:" >> "${log}"
-  echo "rm -rf ${out_dir}" >> "${log}"
-
   # переименовываем входной конфиг как "неудачно-отработанный":
   success_conf_name="`echo $conf_file|sed 's/_new.conf/_success.conf/'`"
   echo "`date +%Y.%m.%d-%T`: mv $conf_file $success_conf_name" >> "${log}"
-  mv "$conf_file" "$success_conf_name"
+  mv -v "$conf_file" "$success_conf_name"  >> "${log}"
 
+  # удаляем временные данные этой генерации:
+  echo "`date +%Y.%m.%d-%T`: чистка временных данных:" >> "${log}"
+  echo "rm -rf ${out_dir}" >> "${log}"
   rm -rf "${out_dir}" >> "${log}"
 done
 
-# чистка директории экспорта:
+# чистка директории экспорта (карты старее 14 дней):
 echo "`date +%Y.%m.%d-%T`: чистка директории экспорта:" >> "${log}"
-find "${export_dir}" -mtime +7 -and -type f -print  >> "${log}"
-find "${export_dir}" -mtime +7 -and -type f -delete
+find "${export_dir}" -mtime +14 -and -type f -print  >> "${log}"
+find "${export_dir}" -mtime +14 -and -type f -delete
