@@ -26,29 +26,29 @@ def add_request(lat_left_bottom,lon_left_bottom,lat_right_top,lon_right_top,scal
       cf_new.close()
     except:
       # нет такого файла:
-      break
+      pass
     try:
       cf_success=open(conf_path_success,"r")
       cf_success_flag=True
       cf_success.close()
     except:
       # нет такого файла:
-      break
+      pass
     try:
       cf_error=open(conf_path_error,"r")
       cf_error_flag=True
       cf_error.close()
     except:
       # нет такого файла:
-      break
+      pass
 
     if cf_new_flag == False and cf_success_flag == False and cf_error_flag == False:
       # нет ни одного файла с любым статусом - создаём новый файл задачи с этим (index) индексом:
       break
     else:
       # увеличиваем индекс и ищем следующий файл:
-      pass
-    index+=1
+      index+=1
+      continue
 
   try:
     cf=open(conf_path_new,"w+")
@@ -237,15 +237,15 @@ if '@' not in email or 'drsk.ru' not in email and 'rsprim.ru' not in email:
 
 # размер получаемой карты (2.5 - на глазок):
 size=(lat_right_top_f-lat_left_bottom_f)*(lon_right_top_f-lon_left_bottom_f)*scale_i
-if size > 200 or scale_i>17:
-  print("Вы запрашиваете слишком большой размер карты. Попробуйте уменьшить либо размер квадрата либо масштаб: size=%f (maxsize=200)"%size)
+if size > 250 or scale_i>17:
+  print("Вы запрашиваете слишком большой размер карты. Попробуйте уменьшить либо размер квадрата либо масштаб: size=%f (maxsize=250)"%size)
   print("</body></html>")
   log.error("%s: error size map too big (size=%f, scale_i=%f)"%(email, size, scale_i))
   log.error("%s: bbox was: %f,%f - %f,%f scale_i=%f)"%(email, lat_left_bottom_f,lon_left_bottom_f,lat_right_top_f,lon_right_top_f,scale_i))
   log.info("exit")
   sys.exit(1)
 
-log.info("request: %f,%f-%f,%f scale: %d, size: %f (max 200), email: %s"%(lat_left_bottom_f,lon_left_bottom_f,lat_right_top_f,lon_right_top_f,scale_i,size,email))
+log.info("request: %f,%f-%f,%f scale: %d, size: %f (max 250), email: %s"%(lat_left_bottom_f,lon_left_bottom_f,lat_right_top_f,lon_right_top_f,scale_i,size,email))
 
 for layer in layers:
   log.info("layer: %s"%layer)
