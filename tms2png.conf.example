@@ -53,7 +53,7 @@ LAT_RIGHT_UP="46.7446"
 LON_RIGHT_UP="137.8633"
 
 # Адрес WMS-сервера:
-tms_url="http://tile.osm.prim.drsk.ru"
+tms_url="http://a.tile.osm.prim.drsk.ru http://b.tile.osm.prim.drsk.ru http://c.tile.osm.prim.drsk.ru"
 
 # Директория, где будут создаваться поддиректории вида:
 # out_dir/osm
