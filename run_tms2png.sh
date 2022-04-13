@@ -38,9 +38,9 @@ download_tile()
     success_download_layer_tile=0
     for tms_url_server in ${tms_url}
     do
-      echo "запуск команды:" >> "${log}"
-      echo "wget ${wget_opt} ${tms_url_server}/${layer}/${1}/${2}/${3}.png -O ${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png -o ${wget_log} &> /dev/null"
-      echo "wget ${wget_opt} ${tms_url_server}/${layer}/${1}/${2}/${3}.png -O ${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png -o ${wget_log} &> /dev/null" >> "${log}"
+      echo "`date +%Y.%m.%d-%T`: запуск команды:" >> "${log}"
+      echo "`date +%Y.%m.%d-%T`: wget ${wget_opt} ${tms_url_server}/${layer}/${1}/${2}/${3}.png -O ${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png -o ${wget_log} &> /dev/null"
+      echo "`date +%Y.%m.%d-%T`: wget ${wget_opt} ${tms_url_server}/${layer}/${1}/${2}/${3}.png -O ${out_dir}/${layer}/iteration_0-x_${file_x_index}-y_${file_y_index}.png -o ${wget_log} &> /dev/null" >> "${log}"
       # 10 попыток скачать:
       for((try=0;try<=10;try++))
       do
@@ -54,23 +54,24 @@ download_tile()
         sleep 10
         if [ $try -eq 10 ]
         then
-          echo "10 try wget start is fail. try next server..." >> "${log}"
-          echo "fail url: ${tms_url_server}/${layer}/${1}/${2}/${3}.png" >> "${log}"
+          echo "`date +%Y.%m.%d-%T`: 10 try wget start is fail. try next server..." >> "${log}"
+          echo "`date +%Y.%m.%d-%T`: fail url: ${tms_url_server}/${layer}/${1}/${2}/${3}.png" >> "${log}"
           break
         fi
       done
       if [ 1 -eq $success_download_layer_tile ]
       then
-        echo "success download tile" >> "${log}"
+        echo "`date +%Y.%m.%d-%T`: success download tile" >> "${log}"
         break
       fi
     done
     if [ 0 -eq $success_download_layer_tile ]
     then
-      echo "can not download tile on all servers - return 1" >> "${log}"
+      echo "`date +%Y.%m.%d-%T`: can not download tile on all servers - return 1" >> "${log}"
       return 1
     fi
   done
+  echo "`date +%Y.%m.%d-%T`: success download all layers for this 'num-tile' (${1}/${2}/${3})" >> "${log}"
 }
 
 if [ -z $1 ]
